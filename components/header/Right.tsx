@@ -18,8 +18,10 @@ function Right({}: Props) {
     signOut();
   }, []);
   return (
-    <div className="flex items-center sm:space-x-2">
-      {/* <p className="whitespace-nowrap font-semibold">Miguel Fortuna</p> */}
+    <div
+      className="flex items-center cursor-pointer sm:space-x-2"
+      onClick={logout}
+    >
       <Bars3Icon className="icon" />
       <ChatBubbleOvalLeftEllipsisIcon className="icon" />
       <BellIcon className="icon" />
@@ -29,8 +31,10 @@ function Right({}: Props) {
         height={40}
         alt={`${data?.user?.name}`}
         className="rounded-full cursor-pointer"
-        onClick={logout}
       />
+      <p className="hidden md:inline-flex whitespace-nowrap font-semibold ml-2">
+        {data?.user?.name}
+      </p>
     </div>
   );
 }

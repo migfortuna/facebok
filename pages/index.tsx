@@ -1,8 +1,11 @@
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 import Header from "@/components/header/Header";
 
 export default function Home() {
+  const userSession = useSession();
+  console.log("USER SESSION", userSession);
   return (
     <>
       <Head>

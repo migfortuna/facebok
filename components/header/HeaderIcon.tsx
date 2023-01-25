@@ -14,7 +14,7 @@ function HeaderIcon({ Icon, active }: Props) {
       className="cursor-pointer p-2 md:px-5 lg:px-10 group hover:bg-gray-100 rounded-xl"
     >
       <Icon
-        className={`h-6 sm:h-7 mx-auto text-center text-gray-500 group-hover:text-blue-500 ${
+        className={`h-6 mx-auto text-center text-gray-500 group-hover:text-blue-500 ${
           active && "text-blue-500"
         }`}
       />
