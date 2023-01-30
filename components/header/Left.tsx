@@ -13,7 +13,7 @@ function Left({}: Props) {
         width={40}
         height={40}
         alt="facebook"
-        className="mr-1"
+        className="hidden sm:inline-flex mr-1"
       />
       <div className="flex items-center rounded-full bg-gray-100 p-2">
         <MagnifyingGlassIcon className="h-5 text-gray-500" />
