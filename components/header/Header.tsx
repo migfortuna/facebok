@@ -8,7 +8,7 @@ interface Props {}
 
 function Header({}: Props) {
   return (
-    <div className="sticky top-0 z-50 bg-white flex justify-between items-center p-2 lg:px-5 shadow-md">
+    <div className="sticky top-0 z-50 bg-white flex justify-between items-center p-1 lg:px-5 shadow-md">
       <Left />
       <Middle />
       <Right />

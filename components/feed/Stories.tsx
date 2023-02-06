@@ -35,7 +35,7 @@ const stories: Story[] = [
 
 function Stories({}: Props) {
   return (
-    <div className="flex justify-center mx-auto mb-2">
+    <div className="flex mt-4 justify-center mx-auto mb-2">
       {stories.map((story, index) => (
         <StoryCard key={index} story={story} />
       ))}

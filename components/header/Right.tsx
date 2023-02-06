@@ -21,7 +21,10 @@ function Right({}: Props) {
       <Bars3Icon className="icon" />
       <ChatBubbleOvalLeftEllipsisIcon className="icon" />
       <BellIcon className="icon" />
-      <div className="flex items-center" onClick={logout}>
+      <div
+        className="flex items-center cursor-pointer hover:bg-gray-100 p-2 rounded-xl"
+        onClick={logout}
+      >
         <Image
           src={`${data?.user?.image}`}
           width={40}

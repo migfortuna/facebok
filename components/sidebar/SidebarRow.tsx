@@ -20,7 +20,7 @@ function SidebarRow({ src, Icon, title }: Props) {
         />
       )}
       {Icon && <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" />}
-      <p className="hidden sm:inline-flex font-medium">{title}</p>
+      <p className="hidden sm:inline-flex font-medium text-sm">{title}</p>
     </div>
   );
 }

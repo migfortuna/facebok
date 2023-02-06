@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { serverTimestamp, setDoc, doc } from "firebase/firestore";
+import { uploadString, ref } from "firebase/storage";
 import {
   VideoCameraIcon,
   CameraIcon,
@@ -11,13 +12,15 @@ import { v4 as uuidV4 } from "uuid";
 
 import { UserSession } from "@/types/session";
 import { Post } from "@/types/feed";
-import { postCollection } from "@/firebase";
+import { postCollection, storage } from "@/firebase";
 
 type Props = {};
 
 function InputBox({}: Props) {
   const { data }: UserSession = useSession();
   const inputEl = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [imageToPost, setImageToPost] = useState<any>(null);
 
   const sendPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +28,7 @@ function InputBox({}: Props) {
     const newPost: Post = {
       id: uuidV4(),
       email: data?.user?.email,
-      image: "New Image",
+      image: data?.user?.image,
       message: inputEl.current?.value,
       name: data?.user?.name,
       timestamp: serverTimestamp(),
@@ -35,9 +38,31 @@ function InputBox({}: Props) {
       const postRef = doc(postCollection, newPost.id);
       await setDoc(postRef, newPost);
       inputEl.current ? (inputEl.current.value = "") : null;
+
+      if (imageToPost) {
+        const storageRef = ref(storage, `posts/${newPost.id}`);
+        await uploadString(storageRef, imageToPost, "data_url");
+        removeImage();
+      }
     } catch (err) {
       console.error("ADD POST ERR", err);
     }
+  };
+
+  const addImageToPost = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+
+    if (e.target.files && e.target.files?.length > 0) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setImageToPost(readerEvent.target?.result);
+    };
+  };
+
+  const removeImage = () => {
+    setImageToPost(null);
   };
 
   return (
@@ -64,6 +89,17 @@ function InputBox({}: Props) {
             Submit
           </button>
         </form>
+
+        {imageToPost && (
+          <div
+            onClick={removeImage}
+            className="flex flex-col filter hover:brightness-110 transition duration-150
+          transform hover:scale-105 cursor-pointer"
+          >
+            <img className="h-10 object-contain" src={imageToPost} alt="" />
+            <p className="text-xs text-red-500 text-center">Remove</p>
+          </div>
+        )}
       </div>
 
       <div className="flex justify-evenly items-center border-t pt-2">
@@ -73,11 +109,12 @@ function InputBox({}: Props) {
             Live Video
           </p>
         </div>
-        <div className="inputIcon">
+        <div onClick={() => fileRef.current?.click()} className="inputIcon">
           <CameraIcon className="h-6 text-blue-400" />
           <p className="hidden md:inline-flex text-xs sm:text-sm xl:text-md">
             Photo/Video
           </p>
+          <input ref={fileRef} type="file" onChange={addImageToPost} hidden />
         </div>
         <div className="inputIcon">
           <FaceSmileIcon className="h-6 text-yellow-300" />

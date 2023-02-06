@@ -9,7 +9,7 @@ interface Props {
 
 function StoryCard({ story: { name, src, profile } }: Props) {
   return (
-    <div className="hidden sm:block relative h-16 w-16 sm:h-36 sm:w-24 md:h-48 md:w-32 lg:h-60 lg:w-36 cursor-pointer overflow-x mx-1 shadow-md rounded-full sm:rounded-md">
+    <div className="relative h-10 w-10 sm:h-28 sm:w-20 md:h-48 md:w-32 lg:h-60 lg:w-36 cursor-pointer overflow-x mx-1 shadow-md rounded-full sm:rounded-md">
       <Image
         src={profile}
         alt={name}

@@ -9,7 +9,7 @@ export interface Story {
 export interface Post {
   id: string;
   email?: string | null;
-  image: string;
+  image?: string | null;
   message?: string | null;
   name?: string | null;
   timestamp: FieldValue;

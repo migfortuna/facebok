@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DocumentData, onSnapshot } from "firebase/firestore";
+import { DocumentData, onSnapshot, query, orderBy } from "firebase/firestore";
 
 import PostCard from "./PostCard";
 import { Post } from "@/types/feed";
@@ -11,7 +11,8 @@ function Posts({}: Props) {
   const [posts, setPosts] = useState<DocumentData[] | Post[]>([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(postCollection, (querySnapshot) => {
+    const q = query(postCollection, orderBy("timestamp", "desc"));
+    const unsub = onSnapshot(q, (querySnapshot) => {
       let items: DocumentData[] = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
