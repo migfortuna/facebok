@@ -63,6 +63,17 @@ function PostCard({ post }: Props) {
         <p className="text-sm md:text-md">{post.message}</p>
       </div>
 
+      {post.postImage && (
+        <div>
+          <Image
+            src={post.postImage}
+            alt={post.message}
+            width={500}
+            height={500}
+          />
+        </div>
+      )}
+
       {post.timestamp && (
         <div className="flex justify-end">
           <p className="text-xs font-thin">

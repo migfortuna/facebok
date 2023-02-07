@@ -12,5 +12,6 @@ export interface Post {
   image?: string | null;
   message?: string | null;
   name?: string | null;
+  postImage?: any;
   timestamp: FieldValue;
 }

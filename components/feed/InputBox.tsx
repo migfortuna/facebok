@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { serverTimestamp, setDoc, doc } from "firebase/firestore";
-import { uploadString, ref } from "firebase/storage";
+import { uploadString, getDownloadURL, ref } from "firebase/storage";
 import {
   VideoCameraIcon,
   CameraIcon,
@@ -41,7 +41,15 @@ function InputBox({}: Props) {
 
       if (imageToPost) {
         const storageRef = ref(storage, `posts/${newPost.id}`);
-        await uploadString(storageRef, imageToPost, "data_url");
+        const uploadTask = await uploadString(
+          storageRef,
+          imageToPost,
+          "data_url"
+        );
+        await getDownloadURL(uploadTask.ref).then((downloadUrl) => {
+          setDoc(postRef, { postImage: downloadUrl }, { merge: true });
+        });
+
         removeImage();
       }
     } catch (err) {
