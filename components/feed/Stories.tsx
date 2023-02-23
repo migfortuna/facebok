@@ -7,9 +7,9 @@ interface Props {}
 
 const stories: Story[] = [
   {
-    name: "Sonny Sangha",
-    src: "https://links.papareact.com/zof",
-    profile: "https://links.papareact.com/l4v",
+    name: "Michael Jordan",
+    src: "https://cdn.britannica.com/09/188709-050-03BF34CB/Michael-Jordan.jpg",
+    profile: "https://hips.hearstapps.com/hmg-prod/images/michael-jordan.jpg",
   },
   {
     name: "Elon Musk",

@@ -4,6 +4,7 @@ import moment from "moment";
 import { useSession } from "next-auth/react";
 import { DocumentData, doc, deleteDoc } from "firebase/firestore";
 
+import PostActions from "./PostActions";
 import { Post } from "@/types/feed";
 import { UserSession } from "@/types/session";
 import { EllipsisHorizontalIcon, XMarkIcon } from "@heroicons/react/24/solid";
@@ -26,19 +27,30 @@ function PostCard({ post }: Props) {
   };
 
   return (
-    <div className="p-3 my-3 max-w-xs md:max-w-lg lg:max-w-xl mx-auto bg-white rounded-md shadow-md space-y-1">
-      <div className="flex justify-between mb-2">
+    <div className="my-3 max-w-xs md:max-w-lg lg:max-w-xl mx-auto bg-white rounded-md shadow-md space-y-1">
+      <div className="flex justify-between pt-4 px-3">
         {/* profile, name, and time */}
         <div className="flex items-center space-x-2">
           <Image
             src={data?.user?.image || ""}
             alt={data?.user?.name || ""}
-            width={30}
-            height={30}
+            width={40}
+            height={40}
             className="rounded-full"
           />
 
-          <p className="text-sm font-bold">{data?.user?.name}</p>
+          <div className="flex flex-col justify-center">
+            <p className="text-sm font-bold">{data?.user?.name}</p>
+            {post.timestamp && (
+              // <div className="flex justify-end">
+              <p className="text-xs font-thin">
+                {moment(post.timestamp.seconds, "X").format(
+                  "MMMM DD, YYYY h:mm A"
+                )}
+              </p>
+              // </div>
+            )}
+          </div>
         </div>
 
         {/* options and clear icon */}
@@ -59,7 +71,7 @@ function PostCard({ post }: Props) {
         </div>
       </div>
 
-      <div>
+      <div className="p-3">
         <p className="text-sm md:text-md">{post.message}</p>
       </div>
 
@@ -68,19 +80,14 @@ function PostCard({ post }: Props) {
           <Image
             src={post.postImage}
             alt={post.message}
-            width={500}
-            height={500}
+            width={750}
+            height={750}
+            className="shadow-md"
           />
         </div>
       )}
 
-      {post.timestamp && (
-        <div className="flex justify-end">
-          <p className="text-xs font-thin">
-            {moment(post.timestamp.seconds, "X").format("MMMM DD, YYYY h:mm A")}
-          </p>
-        </div>
-      )}
+      <PostActions />
     </div>
   );
 }

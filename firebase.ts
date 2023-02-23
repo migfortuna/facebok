@@ -16,5 +16,5 @@ export const app = initializeApp(firebaseConfig);
 export const timestamp = serverTimestamp();
 export const storage = getStorage(app);
 export const storageRef = ref(storage);
-export const firestore = getFirestore(app);
+export const firestore = getFirestore(app); // db
 export const postCollection = collection(firestore, "posts");

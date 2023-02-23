@@ -13,9 +13,9 @@ function StoryCard({ story: { name, src, profile } }: Props) {
       <Image
         src={profile}
         alt={name}
-        width={40}
-        height={40}
-        className="absolute opacity-0 lg:opacity-100 rounded-full object-contain z-20 top-3 left-3"
+        width={100}
+        height={100}
+        className="absolute opacity-0 lg:opacity-100 rounded-full object-cover z-20 top-3 left-3 h-10 w-10"
       />
       <p className="hidden lg:block absolute z-20 bottom-5 left-3 text-white text-sm font-bold">
         {name}
