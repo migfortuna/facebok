@@ -1,21 +1,29 @@
 import Head from "next/head";
-import { getDocs, onSnapshot, query, orderBy } from "firebase/firestore";
+import { getDocs, query, orderBy, DocumentData } from "firebase/firestore";
 
 import Header from "@/components/header/Header";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Feed from "@/components/feed/Feed";
 import Widgets from "@/components/widget/Widgets";
-import { Post } from "@/types/feed";
-import { postCollection, firestore } from "@/firebase";
+import { postCollection } from "@/firebase";
 
 export async function getServerSideProps(context: any) {
-  let posts: any = [];
+  let posts: DocumentData = [];
 
-  const querySnapshot = await getDocs(postCollection);
+  const q = query(postCollection, orderBy("timestamp", "desc"));
+  const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     let data = doc.data();
-    posts.push({ message: data.message });
+    posts.push({
+      message: data.message,
+      image: data.image,
+      id: data.id,
+      postImage: data.postImage || null,
+      name: data.name,
+      email: data.email,
+      timestamp: { seconds: data.timestamp.seconds },
+    });
   });
 
   return {
@@ -25,7 +33,7 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-export default function Home() {
+export default function Home({ posts }: any) {
   return (
     <div className="h-screen overflow-hidden">
       <Head>
@@ -39,7 +47,7 @@ export default function Home() {
 
       <main className="flex">
         <Sidebar />
-        <Feed />
+        <Feed posts={posts} />
         <Widgets />
       </main>
     </div>

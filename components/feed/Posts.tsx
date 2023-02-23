@@ -5,10 +5,14 @@ import PostCard from "./PostCard";
 import { Post } from "@/types/feed";
 import { postCollection } from "@/firebase";
 
-type Props = {};
+type Props = {
+  posts: DocumentData[];
+};
 
-function Posts({}: Props) {
-  const [posts, setPosts] = useState<DocumentData[] | Post[]>([]);
+function Posts({ posts }: Props) {
+  const [realTimePosts, setRealTimePosts] = useState<DocumentData[] | Post[]>(
+    []
+  );
 
   useEffect(() => {
     const q = query(postCollection, orderBy("timestamp", "desc"));
@@ -17,7 +21,7 @@ function Posts({}: Props) {
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
-      setPosts(items);
+      setRealTimePosts(items);
     });
 
     return () => {
@@ -27,9 +31,9 @@ function Posts({}: Props) {
 
   return (
     <>
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
+      {realTimePosts
+        ? realTimePosts.map((post) => <PostCard key={post.id} post={post} />)
+        : posts.map((post) => <PostCard key={post.id} post={post} />)}
     </>
   );
 }

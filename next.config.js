@@ -7,6 +7,7 @@ const nextConfig = {
       "platform-lookaside.fbsbx.com",
       "firebasestorage.googleapis.com",
       "hips.hearstapps.com",
+      "cdn.britannica.com",
     ],
   },
 };
